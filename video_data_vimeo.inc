@@ -36,3 +36,10 @@ function video_data_vimeo_handle_data($url) {
   return FALSE;
 }
  
+function  _video_data_vimeo_parse_data($data){
+ return array( 'title' => $data['title'],
+               'description' => $data['description'],
+               'service' => 'vimeo',
+               'vimeo' => $data,
+             ); 
+}
