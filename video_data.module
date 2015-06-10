@@ -42,3 +42,34 @@ function video_data_help($path, $arg) {
       return $output;
   }
 }
+
+/**
+ * Implements hook_menu().
+ * */
+function video_data_menu(){
+  $items = array();
+  $items['admin/config/media/video_data'] = array(
+        'title' => 'Video Data',
+        'description' => 'Configuration for the Video Data module.',
+        'page callback' => 'drupal_get_form',
+        'page arguments' => array('video_data_admin_form'),
+        'access arguments' => array('administer users'),
+        'file' => 'video_data.admin.inc',
+        'type' => MENU_NORMAL_ITEM,
+        );
+  return $items;
+}
+
+
+
+/* Return Fields Types Abailables and data key for each */
+ function _video_data_fields_types($type = FALSE){
+  $types =  array('text' => 'value',
+                  'video_embed_field' => 'video_url');
+                  
+ if( $type ){ return $types[$type]; }
+ return $types;
+ }
+
+
+
