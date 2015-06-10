@@ -141,7 +141,7 @@ function _video_data_node_url_data($node, $map, $delta){
 }
 
 
-**
+/*
  * Calculates the min index for use in finding the id of a youtube video.
  *
  * @param string $pos1
