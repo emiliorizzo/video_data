@@ -1,0 +1,57 @@
+<?php
+/**
+ * @file
+ * Video Data Token Module
+ */
+ 
+
+/**
+ * Implements hook_token_info().
+ */
+function video_data_token_token_info() {
+  $info = array();
+  // Define a new token type.
+  $info['types']['video_data'] = array(
+    'name' => t('Video Title Tokens'),
+    'description' => t('Video Title tokens'),
+  );
+  // Define any new tokens.
+  $info['tokens']['video_data']['title'] = array(
+    'name' => t('Video title from service'),
+    'description' => t('Video title from service provider'),
+  );
+  return $info;
+}
+
+/**
+ * Implements hook_tokens().
+ */
+function video_data_token_tokens($type, $tokens, array $data = array(), array $options = array()) {
+  $replacements = array();
+  if ($type == 'video_data') {
+      
+     if( $data['node'] ){
+      $map = unserialize(variable_get('video_data_map',NULL));
+      /* Incomplette, $delta = 0 (only first element) */
+      $url = _video_data_node_url_data($data['node'],$map,0);
+       
+       if( $url && ( is_array($map)) ){
+       $data = _video_data_data($url);
+        
+        if( $data && !empty( $data['title'] ) ){
+          
+         foreach ($tokens as $name => $original) {
+           
+          switch ($name) {
+           case 'title':
+            $value = $data['title'];
+            $replacements[$original] = $value;
+           break;
+           }
+          }
+        }
+       }
+     }
+  }
+  return $replacements;
+}
