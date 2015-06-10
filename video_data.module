@@ -70,6 +70,77 @@ function video_data_menu(){
  if( $type ){ return $types[$type]; }
  return $types;
  }
+ 
+ /* Return Services by Domain */
+function _video_data_services(){
+  return array('youtube.com' => 'youtube',
+               'vimeo.com' => 'vimeo',
+     
+ );
+}
 
+/* Identify Service and Return Data */
+function _video_data_data($url){
+ $service =  _video_data_service($url);
+  
+  if( $service ){
+   $service_hand_func = 'video_data_' . $service . '_handle_data';
+ 
+   if ( function_exists( $service_hand_func ) ){
+    $data = $service_hand_func($url);
+     
+     if( $data ){
+      $service_data_func = '_video_data_' . $service . '_parse_data';
+        if ( function_exists( $service_hand_func ) ){
+         return $service_data_func( $data );
+        }
+     }
+   }
+  }
+return FALSE;
+}
+
+ 
+ /* basic url parsing */
+function _video_data_parse_url($url){
+  if (!stristr($url, 'http://') && !stristr($url, 'https://')) {
+    $url = 'http://' . $url;
+  }
+  $url_arr = parse_url($url);
+  if (isset($url_arr['host'])) {
+    return $url_arr;
+  }
+return FALSE;
+}
+
+
+/* Identify service by domain */
+function _video_data_service($url){
+ $url_arr = _video_data_parse_url($url);
+  
+  if( is_array($url_arr) ){
+   $services =  _video_data_services();
+   $domain = str_replace('www.', '', $url_arr['host']);
+    
+    if( isset( $services[$domain] ) ){
+     return $services[$domain];
+    }
+  }
+}
+
+/* Return video URL from Node Field*/
+function _video_data_node_url_data($node, $map, $delta){
+ if( $map[$node->type] ){
+  if( isset($node ->$map[$node->type] ) && !empty( $node->$map[$node->type] ) ){
+   $file_info  = field_info_field($map[$node->type]);
+   $k = _video_data_fields_types($file_info['type']);
+    if( $k ){
+     $value = $node -> $map[$node->type];
+     return $value[LANGUAGE_NONE][$delta][$k];
+    }
+  }
+ }
+ return FALSE;
+}
 
 
