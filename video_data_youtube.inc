@@ -59,7 +59,7 @@ function _video_data_youtube_id($url) {
       $pos2 = stripos($url, '&', $pos);
       $pos_hash = stripos($url, '#', $pos);
 
-      $pos2 = _video_embed_get_min($pos2, $pos_hash);
+      $pos2 = _video_data_get_min($pos2, $pos_hash);
     }
     else {
       $pos = strripos($url, '/');
@@ -68,7 +68,7 @@ function _video_data_youtube_id($url) {
         $pos2 = stripos($url, '?', $pos);
         $pos_hash = stripos($url, '#', $pos);
 
-        $pos2 = _video_embed_get_min($pos2, $pos_hash);
+        $pos2 = _video_data_get_min($pos2, $pos_hash);
       }
     }
   }

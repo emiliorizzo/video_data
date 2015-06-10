@@ -82,13 +82,10 @@ function _video_data_services(){
 /* Identify Service and Return Data */
 function _video_data_data($url){
  $service =  _video_data_service($url);
-  
   if( $service ){
    $service_hand_func = 'video_data_' . $service . '_handle_data';
- 
    if ( function_exists( $service_hand_func ) ){
     $data = $service_hand_func($url);
-     
      if( $data ){
       $service_data_func = '_video_data_' . $service . '_parse_data';
         if ( function_exists( $service_hand_func ) ){
@@ -144,3 +141,25 @@ function _video_data_node_url_data($node, $map, $delta){
 }
 
 
+**
+ * Calculates the min index for use in finding the id of a youtube video.
+ *
+ * @param string $pos1
+ *   The first index.
+ * @param string $pos2
+ *   The second index.
+ *
+ * @return string
+ *   The min index.
+ */
+function _video_data_get_min($pos1, $pos2) {
+  if (!$pos1) {
+    return $pos2;
+  }
+  elseif (!$pos2) {
+    return $pos1;
+  }
+  else {
+    return min($pos1, $pos2);
+  }
+}

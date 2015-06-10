@@ -25,7 +25,7 @@ function _video_data_vimeo_id($url){
  */
 function video_data_vimeo_handle_data($url) {
   // Get ID of video from URL.
-  $id = _video_embed_field_get_vimeo_id($url);
+  $id =  _video_data_vimeo_id($url);
   if ($id) {
     $response = drupal_http_request('http://vimeo.com/api/v2/video/' . $id . '.php');
     if (!isset($response->error)) {
