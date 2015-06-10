@@ -1,0 +1,5 @@
+name = Video Data
+description = "Provides data from video Online Services APIs"
+core = 7.x
+package = Video
+configure = admin/config/media/video_data
