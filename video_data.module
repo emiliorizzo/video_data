@@ -87,8 +87,6 @@ function _video_data_data($url){
 
    if ( function_exists( $service_hand_func ) ){
     $data = $service_hand_func($url);
-         print_r($data);
- exit;
      if( $data ){
       $service_data_func = '_video_data_' . $service . '_parse_data';
         if ( function_exists( $service_hand_func ) ){
