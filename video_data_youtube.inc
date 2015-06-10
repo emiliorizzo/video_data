@@ -86,3 +86,25 @@ function _video_data_youtube_id($url) {
   return $id;
 }
 
+ 
+/* Return DATA from youtube URL */
+function video_data_youtube_handle_data($url){
+ $api_key = variable_get('video_data_youtube_api_key', NULL);
+
+  if( !empty($api_key) ){
+   $id = _video_data_youtube_id($url);
+    
+    if ($id) {
+     $options['v'] = 3;
+     $options['key'] = $api_key;
+     $options['part'] = 'snippet';
+     $options['id'] = $id; 
+    $response =  drupal_http_request(url('https://www.googleapis.com/youtube/v3/videos', array('query' => $options)));
+    if (!isset($response->error)) {
+      $data = json_decode($response->data);
+      return $data->items;
+    }
+   }
+  }
+ return FALSE;
+}
