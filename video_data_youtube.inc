@@ -108,3 +108,13 @@ function video_data_youtube_handle_data($url){
   }
  return FALSE;
 }
+
+function  _video_data_youtube_parse_data($data){
+ $data = $data[0];
+ return array( 'title' => $data -> snippet -> title,
+               'description' => $data -> snippet -> description,
+               'service' => 'youtube',
+               'youtube' => $data,
+             ); 
+}
+
