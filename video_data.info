@@ -4,3 +4,4 @@ core = 7.x
 package = Video
 configure = admin/config/media/video_data
 files[] = video_data_youtube.inc
+files[] = video_data_vimeo.inc
