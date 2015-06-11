@@ -36,7 +36,7 @@ Some features are similar to video_embed_field field module but can be used to c
   - To use tokens enable video_data_token module
   - Go to admin/config/media/video_data and set your Youtube KEY API
   
-## Example - Node Title form Video Title
+## Example - Node Title from Video Title
 
  - Download and install video_data module
  - Enable video_data and video_data_token modules
@@ -56,8 +56,10 @@ Some features are similar to video_embed_field field module but can be used to c
  - Vimeo API v2
  - YouTube API v3 
 
-Youtube v3 API requires a API KEY to retrieve data, get it from code.google.com
-and save in admin/config/media/video_data (youtube_api_key field)
+Youtube v3 API requires a API KEY to retrieve data.
+ https://developers.google.com/youtube/v3/getting-started
+
+** Save your API KEY in admin/config/media/video_data (youtube_api_key field) **
 
 
 ## Limitations
