@@ -25,10 +25,10 @@ Some features are similar to video_embed_field field module but can be used to c
 ### video_data_token
   provides tokens from data reads by video_data module
   
-  -id: Video id
-  -title: Video title
-  -description: Video Description
-  -duration: Video duration in seconds 
+  - id: Video id
+  - title: Video title
+  - description: Video Description
+  - duration: Video duration in seconds 
 
 ## Instalation
 
