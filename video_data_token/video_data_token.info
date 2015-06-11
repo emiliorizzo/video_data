@@ -2,4 +2,5 @@ name = Video Data Tokens
 description = "Provides Tokens from video Online Services APIs"
 core = 7.x
 package = Video
+dependencies[] = token
 dependencies[] = video_data
