@@ -167,6 +167,22 @@ function _video_data_get_min($pos1, $pos2) {
 }
 
 /*
+ * Converts time in ISO-8601 to Secods
+ *
+ * @param string $iso
+ *   Time Duration in ISO-8601 format
+ *
+ * @return int
+ *   Duration in seconds.
+ */
+function _video_data_iso_to_seconds($iso){
+ $t =  new DateInterval($iso);
+ $seconds = $t->d * 86400  +  $t->h * 3600  +  $t->i * 60  +  $t->s;   
+ return $seconds;
+}
+
+
+/*
  * VIMEO
  * 
  * */
@@ -205,8 +221,10 @@ function video_data_vimeo_handle_data($url) {
 }
  
 function  _video_data_vimeo_parse_data($data){
- return array( 'title' => $data['title'],
+ return array( 'id' => $data['id'],
+               'title' => $data['title'],
                'description' => $data['description'],
+               'duration' => $data['duration'],
                'service' => 'vimeo',
                'vimeo' => $data,
              ); 
@@ -312,7 +330,7 @@ function video_data_youtube_handle_data($url){
     if ($id) {
      $options['v'] = 3;
      $options['key'] = $api_key;
-     $options['part'] = 'snippet';
+     $options['part'] = 'snippet,contentDetails';
      $options['id'] = $id; 
     $response =  drupal_http_request(url('https://www.googleapis.com/youtube/v3/videos', array('query' => $options)));
     if (!isset($response->error)) {
@@ -326,8 +344,10 @@ function video_data_youtube_handle_data($url){
 
 function  _video_data_youtube_parse_data($data){
  $data = $data[0];
- return array( 'title' => $data -> snippet -> title,
+ return array( 'id' => $data -> id,
+               'title' => $data -> snippet -> title,
                'description' => $data -> snippet -> description,
+               'duration' => _video_data_iso_to_seconds($data -> contentDetails ->duration),
                'service' => 'youtube',
                'youtube' => $data,
              ); 

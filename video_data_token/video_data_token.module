@@ -12,13 +12,32 @@ function video_data_token_token_info() {
   $info = array();
   // Define a new token type.
   $info['types']['video_data'] = array(
-    'name' => t('Video Data Tokens'),
+    'name' => t('Video Data'),
     'description' => t('Video Data tokens'),
   );
-  // Define any new tokens.
+  
+  /* ID */
+  $info['tokens']['video_data']['id'] = array(
+    'name' => t('Video ID'),
+    'description' => t('Video ID from service provider'),
+  );
+
+  /* Title */
   $info['tokens']['video_data']['title'] = array(
-    'name' => t('Video title from service'),
+    'name' => t('Video Title'),
     'description' => t('Video title from service provider'),
+  );
+  
+ /* Duration */
+  $info['tokens']['video_data']['duration'] = array(
+    'name' => t('Video Duration'),
+    'description' => t('Video duration in seconds'),
+  );
+  
+  /* Description */
+  $info['tokens']['video_data']['description'] = array(
+    'name' => t('Video description'),
+    'description' => t('Video description from service provider'),
   );
   return $info;
 }
@@ -28,26 +47,25 @@ function video_data_token_token_info() {
  */
 function video_data_token_tokens($type, $tokens, array $data = array(), array $options = array()) {
   $replacements = array();
+  
   if ($type == 'video_data') {
       
      if( $data['node'] ){
       $map = unserialize(variable_get('video_data_map',NULL));
       /* Incomplette, $delta = 0 (only first element) */
-      $url = _video_data_node_url_data($data['node'],$map,0);
+      $delta = 0;
+      $url = _video_data_node_url_data($data['node'],$map, $delta);
        
        if( $url && ( is_array($map)) ){
        $data = _video_data_data($url);
         
-        if( $data && !empty( $data['title'] ) ){
+        if( $data  ){
           
          foreach ($tokens as $name => $original) {
-           
-          switch ($name) {
-           case 'title':
-            $value = $data['title'];
-            $replacements[$original] = $value;
-           break;
-           }
+          
+            if( isset( $data[$name] ) && !empty( $data[$name] ) ){
+             $replacements[$original] = $data[$name];
+            }
           }
         }
        }
