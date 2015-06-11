@@ -2,10 +2,15 @@
 
 ## Introduction
 
-This module is similar to video_embed_field and complement it providing tokens 
+This module retrieve data from youtube and vimeo APIs.
+Some features are similar to video_embed_field field module but can be used to complement it.
 
-Motivation.... complement html5_media...etc
-(INCOMPLETE)
+
+###Motivation
+
+- Ad Configurable API KEY for youtube API v3.
+- Provide tokens to auto title Videos
+(WIP) - Extends html5_media features 
 
 ## Description
  This module have 2 modules:
@@ -18,18 +23,21 @@ Motivation.... complement html5_media...etc
 
 
 ### video_data_token, 
+  provides tokens from data reads by video_data module
   
-   provides tokesn from data reads by video_data module
-   (at momenn the unique token abailable is "title")
+  -id: Video id
+  -title: Video title
+  -description: Video Description
+  -duration: Video duration in seconds 
 
 
-## Example usage
+## Example - Node Title form Video Title
 
  - Download and install video_data module
  - Enable video_data and video_data_token modules
  - Download and install auto_entity_label
- - Create a content type (ex: "videos") 
- - Add a text field or a  - video_embed_field (ej "video_link")
+ - Create a Content Type (ex: "videos") 
+ - Add a text field or a  video_embed_field (ej "video_link")
  - Goto admin/config/media/video_data and select the field name (in this case "video_link")
    in the select list of your conten type (in this case "videos"), Save Configuration
  - Edit the Conten Type ("videos") Autolabel options, and write (or search in Token Browser)
@@ -40,12 +48,15 @@ Motivation.... complement html5_media...etc
 
 ##Services
 
- - Vimeo API 2
- - YouTube API 3 
+ - Vimeo API v2
+ - YouTube API v3 
 
 Youtube v3 API requires a API KEY to retrieve data, get it from code.google.com
 and save in admin/config/media/video_data (youtube_api_key fiels)
 
 
 ## Limitations
+
+- Map only one field (video_embed_field  or text) per Content Type
+- Retrieves only one value per field , multivalues fields are not supported.
 
