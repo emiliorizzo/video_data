@@ -1,6 +1,13 @@
 # Video Data Module
 
 ## Introduction
+
+This module is similar to video_embed_field and complement it providing tokens 
+
+Motivation.... complement html5_media...etc
+(INCOMPLETE)
+
+## Description
  This module have 2 modules:
  
   ### video_data 
@@ -28,5 +35,17 @@
  - Edit the Conten Type ("videos") Autolabel options, and write (or search in Token Browser)
    this token: [video_data:title]
  - Save Content Type Configuration
- - Create a content of type "videos" and write a valid youtube or vimeo url in the field "video_link"
- - Save the content, and the content title is automatically set to video title on vimeo or youtube
+ - Create a  "videos" content and write a valid vimeo url in the field "video_link"
+ - Save the content, and the content title is automatically set to video title on vimeo 
+
+##Services
+
+ - Vimeo API 2
+ - YouTube API 3 
+
+Youtube v3 API requires a API KEY to retrieve data, get it from code.google.com
+and save in admin/config/media/video_data (youtube_api_key fiels)
+
+
+## Limitations
+
