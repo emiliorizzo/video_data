@@ -12,8 +12,7 @@
  * @see system_settings_form()
  */
 function video_data_admin_form($form, &$form_state){
-  
- $map = unserialize(variable_get('video_data_map',NULL));
+
  $form['#tree'] = TRUE;
  
   /* Main Fieldset */
@@ -39,30 +38,33 @@ function video_data_admin_form($form, &$form_state){
     '#description' => t("Enter Your Youtube API KEY here"),
   );
   
-  /* Map Configuration Fieldset */
-  $form['video_data']['map'] = array(
-    '#type' => 'fieldset',
-    '#title' => t('Content Type Settings'),
-    '#collapsible' => TRUE,
-    '#collapsed' => FALSE,
-  );
-  
-  $fd =  _video_data_admin_fields_array();
-  if( $fd ){
-   foreach( $fd as $ct => $fa ){
-    $form['video_data']['map'][$ct] =   array(
-                                        '#type' => 'select',
-                                        '#title' => $ct,
-                                        '#options' => $fa,
-                                        '#default_value' => $map[$ct],
-                                        '#description' => t('Select Video Field on @ct Content Type',array('@ct'=>$ct)),
-                                        '#empty_value'=>0,
-                                        '#empty_option'=>'--'.t('None').'--',
-                                        );
-                                        
+  /* Token Configuration */
+  if( module_exists('video_data_token') ){
+    
+   $map = unserialize(variable_get('video_data_map',NULL));
+   /* Map Configuration Fieldset */
+   $form['video_data']['map'] = array(
+     '#type' => 'fieldset',
+     '#title' => t('Token Settings'),
+     '#collapsible' => TRUE,
+     '#collapsed' => FALSE,
+   );
+   
+   $fd =  _video_data_admin_fields_array();
+   if( $fd ){
+    foreach( $fd as $ct => $fa ){
+     $form['video_data']['map'][$ct] = array('#type' => 'select',
+                                             '#title' => $ct,
+                                             '#options' => $fa,
+                                             '#default_value' => $map[$ct],
+                                             '#description' => t('Select Video Field on @ct Content Type',array('@ct'=>$ct)),
+                                             '#empty_value'=>0,
+                                             '#empty_option'=>'--'.t('None').'--',
+                                             );
+                                         
+    }
    }
-  }
-  
+ }
   
  $form = system_settings_form($form);
  array_unshift($form['#submit'], 'video_data_admin_form_submit');
