@@ -2,7 +2,7 @@
 
 ## Introduction
 
-This module retrieve data from youtube and vimeo APIs.
+This module retrieves data from youtube and vimeo APIs.
 Some features are similar to video_embed_field field module but can be used to complement it.
 
 
@@ -16,10 +16,10 @@ Some features are similar to video_embed_field field module but can be used to c
  This module have 2 modules:
  
 ### video_data 
-      reads video data from Youtube and Vimeo, using URLs from field types:
+      reads and parse video data from Youtube and Vimeo, using URLs from the field types:
    
         - text 
-        - video_embed_field (see https://www.drupal.org/project/video_embed_field)
+        - video_embed_field  - https://www.drupal.org/project/video_embed_field
 
 
 ### video_data_token, 
@@ -30,12 +30,17 @@ Some features are similar to video_embed_field field module but can be used to c
   -description: Video Description
   -duration: Video duration in seconds 
 
+## Instalation
 
+  - Install as any module and enable it (video_data)
+  - To use tokens enable video_data_token module
+  - Go to admin/config/media/video_data and set your Youtube KEY API
+  
 ## Example - Node Title form Video Title
 
  - Download and install video_data module
  - Enable video_data and video_data_token modules
- - Download and install auto_entity_label
+ - Download and install auto_entitylabel - https://www.drupal.org/project/auto_entitylabel
  - Create a Content Type (ex: "videos") 
  - Add a text field or a  video_embed_field (ej "video_link")
  - Goto admin/config/media/video_data and select the field name (in this case "video_link")
@@ -52,7 +57,7 @@ Some features are similar to video_embed_field field module but can be used to c
  - YouTube API v3 
 
 Youtube v3 API requires a API KEY to retrieve data, get it from code.google.com
-and save in admin/config/media/video_data (youtube_api_key fiels)
+and save in admin/config/media/video_data (youtube_api_key field)
 
 
 ## Limitations
