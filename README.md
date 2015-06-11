@@ -10,19 +10,19 @@ Some features are similar to video_embed_field field module but can be used to c
 
 - Ad Configurable API KEY for youtube API v3.
 - Provide tokens to auto title Videos
-(WIP) - Extends html5_media features 
+- (WiP) Extends html5_media features 
 
 ## Description
  This module have 2 modules:
  
 ### video_data 
-      reads and parse video data from Youtube and Vimeo, using URLs from the field types:
-   
-        - text 
-        - video_embed_field  - https://www.drupal.org/project/video_embed_field
+ reads and parse video data from Youtube and Vimeo, using URLs from the field types:
+ 
+ - text 
+ - video_embed_field  - https://www.drupal.org/project/video_embed_field
 
 
-### video_data_token, 
+### video_data_token
   provides tokens from data reads by video_data module
   
   -id: Video id
