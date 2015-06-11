@@ -74,6 +74,7 @@ function video_data_menu(){
  /* Return Services by Domain */
 function _video_data_services(){
   return array('youtube.com' => 'youtube',
+               'youtu.be' => 'youtube',
                'vimeo.com' => 'vimeo',
      
  );
