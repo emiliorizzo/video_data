@@ -3,13 +3,13 @@
  * @file
  * Video Data Module
  */
- 
- /**
+
+/**
  * Implements hook_help().
  */
 function video_data_help($path, $arg) {
   switch ($path) {
-    case 'admin/help#video_data':
+    case 'admin/help#video_data' :
       $filepath = dirname(__FILE__) . '/README.md';
       if (file_exists($filepath)) {
         $readme = file_get_contents($filepath);
@@ -26,7 +26,7 @@ function video_data_help($path, $arg) {
       if (module_exists('markdown')) {
         $filters = module_invoke('markdown', 'filter_info');
         $info = $filters['filter_markdown'];
-    
+
         if (function_exists($info['process callback'])) {
           $output = $info['process callback']($readme, NULL);
         }
@@ -38,7 +38,6 @@ function video_data_help($path, $arg) {
         $output = '<pre>' . $readme . '</pre>';
       }
 
-
       return $output;
   }
 }
@@ -46,62 +45,63 @@ function video_data_help($path, $arg) {
 /**
  * Implements hook_menu().
  * */
-function video_data_menu(){
+function video_data_menu() {
   $items = array();
   $items['admin/config/media/video_data'] = array(
-        'title' => 'Video Data',
-        'description' => 'Configuration for the Video Data module.',
-        'page callback' => 'drupal_get_form',
-        'page arguments' => array('video_data_admin_form'),
-        'access arguments' => array('administer users'),
-        'file' => 'video_data.admin.inc',
-        'type' => MENU_NORMAL_ITEM,
-        );
+    'title' => 'Video Data',
+    'description' => 'Configuration for the Video Data module.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('video_data_admin_form'),
+    'access arguments' => array('access administration pages'),
+    'file' => 'video_data.admin.inc',
+    'type' => MENU_NORMAL_ITEM,
+  );
   return $items;
 }
 
-
-
 /* Return Fields Types Abailables and data key for each */
- function _video_data_fields_types($type = FALSE){
-  $types =  array('text' => 'value',
-                  'video_embed_field' => 'video_url');
-                  
- if( $type ){ return $types[$type]; }
- return $types;
- }
- 
- /* Return Services by Domain */
-function _video_data_services(){
-  return array('youtube.com' => 'youtube',
-               'youtu.be' => 'youtube',
-               'vimeo.com' => 'vimeo',
-     
- );
+function _video_data_fields_types($type = FALSE) {
+  $types = array(
+    'text' => 'value',
+    'video_embed_field' => 'video_url'
+  );
+
+  if ($type) {
+    return $types[$type];
+  }
+  return $types;
+}
+
+/* Return Services by Domain */
+function _video_data_services() {
+  return array(
+    'youtube.com' => 'youtube',
+    'youtu.be' => 'youtube',
+    'vimeo.com' => 'vimeo',
+  );
 }
 
 /* Identify Service and Return Data */
-function _video_data_data($url){
- $service =  _video_data_service($url);
-  if( $service ){
-   $service_hand_func = 'video_data_' . $service . '_handle_data';
+function _video_data_data($url) {
+  $service = _video_data_service($url);
+  if ($service) {
+    $service_hand_func = 'video_data_' . $service . '_handle_data';
 
-   if ( function_exists( $service_hand_func ) ){
-    $data = $service_hand_func($url);
-     if( $data ){
-      $service_data_func = '_video_data_' . $service . '_parse_data';
-        if ( function_exists( $service_hand_func ) ){
-         return $service_data_func( $data );
+    if (function_exists($service_hand_func)) {
+      $data = $service_hand_func($url);
+      if ($data) {
+        $service_data_func = '_video_data_' . $service . '_parse_data';
+        if (function_exists($service_hand_func)) {
+          return $service_data_func($data);
         }
-     }
-   }
+      }
+    }
   }
-return FALSE;
+  return FALSE;
 }
 
- 
- /* basic url parsing */
-function _video_data_parse_url($url){
+/* basic url parsing */
+function _video_data_parse_url($url) {
   if (!stristr($url, 'http://') && !stristr($url, 'https://')) {
     $url = 'http://' . $url;
   }
@@ -109,39 +109,37 @@ function _video_data_parse_url($url){
   if (isset($url_arr['host'])) {
     return $url_arr;
   }
-return FALSE;
+  return FALSE;
 }
 
-
 /* Identify service by domain */
-function _video_data_service($url){
- $url_arr = _video_data_parse_url($url);
-  
-  if( is_array($url_arr) ){
-   $services =  _video_data_services();
-   $domain = str_replace('www.', '', $url_arr['host']);
-    
-    if( isset( $services[$domain] ) ){
-     return $services[$domain];
+function _video_data_service($url) {
+  $url_arr = _video_data_parse_url($url);
+
+  if (is_array($url_arr)) {
+    $services = _video_data_services();
+    $domain = str_replace('www.', '', $url_arr['host']);
+
+    if (isset($services[$domain])) {
+      return $services[$domain];
     }
   }
 }
 
 /* Return video URL from Node Field*/
-function _video_data_node_url_data($node, $map, $delta){
- if( $map[$node->type] ){
-  if( isset($node ->$map[$node->type] ) && !empty( $node->$map[$node->type] ) ){
-   $file_info  = field_info_field($map[$node->type]);
-   $k = _video_data_fields_types($file_info['type']);
-    if( $k ){
-     $value = $node -> $map[$node->type];
-     return $value[LANGUAGE_NONE][$delta][$k];
+function _video_data_node_url_data($node, $map, $delta) {
+  if ($map[$node -> type]) {
+    if (isset($node -> $map[$node -> type]) && !empty($node -> $map[$node -> type])) {
+      $file_info = field_info_field($map[$node -> type]);
+      $k = _video_data_fields_types($file_info['type']);
+      if ($k) {
+        $value = $node -> $map[$node -> type];
+        return $value[LANGUAGE_NONE][$delta][$k];
+      }
     }
   }
- }
- return FALSE;
+  return FALSE;
 }
-
 
 /*
  * Calculates the min index for use in finding the id of a youtube video.
@@ -175,21 +173,19 @@ function _video_data_get_min($pos1, $pos2) {
  * @return int
  *   Duration in seconds.
  */
-function _video_data_iso_to_seconds($iso){
- $t =  new DateInterval($iso);
- $seconds = $t->d * 86400  +  $t->h * 3600  +  $t->i * 60  +  $t->s;   
- return $seconds;
+function _video_data_iso_to_seconds($iso) {
+  $t = new DateInterval($iso);
+  $seconds = $t -> d * 86400 + $t -> h * 3600 + $t -> i * 60 + $t -> s;
+  return $seconds;
 }
-
 
 /*
  * VIMEO
- * 
+ *
  * */
 
- 
- /* Return video ID from vimeo URL */
-function _video_data_vimeo_id($url){
+/* Return video ID from vimeo URL */
+function _video_data_vimeo_id($url) {
   $pos = strripos($url, '/');
   if ($pos != FALSE) {
     $pos += 1;
@@ -197,7 +193,7 @@ function _video_data_vimeo_id($url){
   }
   return FALSE;
 }
- 
+
 /**
  * Get video data for a Vimeo video URL.
  *
@@ -209,34 +205,33 @@ function _video_data_vimeo_id($url){
  */
 function video_data_vimeo_handle_data($url) {
   // Get ID of video from URL.
-  $id =  _video_data_vimeo_id($url);
+  $id = _video_data_vimeo_id($url);
   if ($id) {
     $response = drupal_http_request('http://vimeo.com/api/v2/video/' . $id . '.php');
-    if (!isset($response->error)) {
-      $response = unserialize($response->data);
+    if (!isset($response -> error)) {
+      $response = unserialize($response -> data);
       return (array) current($response);
     }
   }
   return FALSE;
 }
- 
-function  _video_data_vimeo_parse_data($data){
- return array( 'id' => $data['id'],
-               'title' => $data['title'],
-               'description' => $data['description'],
-               'duration' => $data['duration'],
-               'service' => 'vimeo',
-               'vimeo' => $data,
-             ); 
+
+function _video_data_vimeo_parse_data($data) {
+  return array(
+    'id' => $data['id'],
+    'title' => $data['title'],
+    'description' => $data['description'],
+    'duration' => $data['duration'],
+    'service' => 'vimeo',
+    'vimeo' => $data,
+  );
 }
- 
- 
- /*
-  * YOUTUBE
-  * 
-  * */
- 
- 
+
+/*
+ * YOUTUBE
+ *
+ * */
+
 /**
  * Helper function to get the youtube video's id.
  *
@@ -319,39 +314,36 @@ function _video_data_youtube_id($url) {
   return $id;
 }
 
- 
 /* Return DATA from youtube URL */
-function video_data_youtube_handle_data($url){
- $api_key = variable_get('video_data_youtube_api_key', NULL);
+function video_data_youtube_handle_data($url) {
+  $api_key = variable_get('video_data_youtube_api_key', NULL);
 
-  if( !empty($api_key) ){
-   $id = _video_data_youtube_id($url);
-    
+  if (!empty($api_key)) {
+    $id = _video_data_youtube_id($url);
+
     if ($id) {
-     $options['v'] = 3;
-     $options['key'] = $api_key;
-     $options['part'] = 'snippet,contentDetails';
-     $options['id'] = $id; 
-    $response =  drupal_http_request(url('https://www.googleapis.com/youtube/v3/videos', array('query' => $options)));
-    if (!isset($response->error)) {
-      $data = json_decode($response->data);
-      return $data->items;
+      $options['v'] = 3;
+      $options['key'] = $api_key;
+      $options['part'] = 'snippet,contentDetails';
+      $options['id'] = $id;
+      $response = drupal_http_request(url('https://www.googleapis.com/youtube/v3/videos', array('query' => $options)));
+      if (!isset($response -> error)) {
+        $data = json_decode($response -> data);
+        return $data -> items;
+      }
     }
-   }
   }
- return FALSE;
+  return FALSE;
 }
 
-function  _video_data_youtube_parse_data($data){
- $data = $data[0];
- return array( 'id' => $data -> id,
-               'title' => $data -> snippet -> title,
-               'description' => $data -> snippet -> description,
-               'duration' => _video_data_iso_to_seconds($data -> contentDetails ->duration),
-               'service' => 'youtube',
-               'youtube' => $data,
-             ); 
+function _video_data_youtube_parse_data($data) {
+  $data = $data[0];
+  return array(
+    'id' => $data -> id,
+    'title' => $data -> snippet -> title,
+    'description' => $data -> snippet -> description,
+    'duration' => _video_data_iso_to_seconds($data -> contentDetails -> duration),
+    'service' => 'youtube',
+    'youtube' => $data,
+  );
 }
-
- 
-
