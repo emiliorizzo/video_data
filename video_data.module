@@ -43,6 +43,16 @@ function video_data_help($path, $arg) {
 }
 
 /**
+ * Implements hook_permission().
+ */
+function video_data_permission() {
+  return array('administer video data' => array(
+      'title' => t('Administer Video Data'),
+      'description' => t('Administer the Video Data Module'),
+    ), );
+}
+
+/**
  * Implements hook_menu().
  * */
 function video_data_menu() {
@@ -52,7 +62,7 @@ function video_data_menu() {
     'description' => 'Configuration for the Video Data module.',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('video_data_admin_form'),
-    'access arguments' => array('access administration pages'),
+    'access arguments' => array('administer video data'),
     'file' => 'video_data.admin.inc',
     'type' => MENU_NORMAL_ITEM,
   );
