@@ -9,7 +9,7 @@
  */
 function video_data_help($path, $arg) {
   switch ($path) {
-    case 'admin/help#video_data':
+    case 'admin/help#video_data' :
       $filepath = dirname(__FILE__) . '/README.md';
       if (file_exists($filepath)) {
         $readme = file_get_contents($filepath);
@@ -47,13 +47,24 @@ function video_data_help($path, $arg) {
  * */
 function video_data_menu() {
   $items = array();
-  $items['admin/config/media/video_data'] = array('title' => 'Video Data', 'description' => 'Configuration for the Video Data module.', 'page callback' => 'drupal_get_form', 'page arguments' => array('video_data_admin_form'), 'access arguments' => array('administer users'), 'file' => 'video_data.admin.inc', 'type' => MENU_NORMAL_ITEM, );
+  $items['admin/config/media/video_data'] = array(
+    'title' => 'Video Data',
+    'description' => 'Configuration for the Video Data module.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('video_data_admin_form'),
+    'access arguments' => array('access administration pages'),
+    'file' => 'video_data.admin.inc',
+    'type' => MENU_NORMAL_ITEM,
+  );
   return $items;
 }
 
 /* Return Fields Types Abailables and data key for each */
 function _video_data_fields_types($type = FALSE) {
-  $types = array('text' => 'value', 'video_embed_field' => 'video_url');
+  $types = array(
+    'text' => 'value',
+    'video_embed_field' => 'video_url'
+  );
 
   if ($type) {
     return $types[$type];
@@ -63,7 +74,11 @@ function _video_data_fields_types($type = FALSE) {
 
 /* Return Services by Domain */
 function _video_data_services() {
-  return array('youtube.com' => 'youtube', 'youtu.be' => 'youtube', 'vimeo.com' => 'vimeo', );
+  return array(
+    'youtube.com' => 'youtube',
+    'youtu.be' => 'youtube',
+    'vimeo.com' => 'vimeo',
+  );
 }
 
 /* Identify Service and Return Data */
@@ -202,7 +217,14 @@ function video_data_vimeo_handle_data($url) {
 }
 
 function _video_data_vimeo_parse_data($data) {
-  return array('id' => $data['id'], 'title' => $data['title'], 'description' => $data['description'], 'duration' => $data['duration'], 'service' => 'vimeo', 'vimeo' => $data, );
+  return array(
+    'id' => $data['id'],
+    'title' => $data['title'],
+    'description' => $data['description'],
+    'duration' => $data['duration'],
+    'service' => 'vimeo',
+    'vimeo' => $data,
+  );
 }
 
 /*
@@ -316,5 +338,12 @@ function video_data_youtube_handle_data($url) {
 
 function _video_data_youtube_parse_data($data) {
   $data = $data[0];
-  return array('id' => $data -> id, 'title' => $data -> snippet -> title, 'description' => $data -> snippet -> description, 'duration' => _video_data_iso_to_seconds($data -> contentDetails -> duration), 'service' => 'youtube', 'youtube' => $data, );
+  return array(
+    'id' => $data -> id,
+    'title' => $data -> snippet -> title,
+    'description' => $data -> snippet -> description,
+    'duration' => _video_data_iso_to_seconds($data -> contentDetails -> duration),
+    'service' => 'youtube',
+    'youtube' => $data,
+  );
 }
